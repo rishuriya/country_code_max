@@ -1,0 +1,10 @@
+.dart_tool/package_config.json
+.dart_tool/package_config_subset
+.dart_tool/package_graph.json
+.dart_tool/version
+.flutter-plugins-dependencies
+example/.dart_tool/extension_discovery/README.md
+example/.dart_tool/extension_discovery/vs_code.json
+example/.dart_tool/package_config.json
+example/.dart_tool/package_config_subset
+example/.dart_tool/package_graph.json
