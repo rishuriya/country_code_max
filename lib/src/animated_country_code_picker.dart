@@ -1,9 +1,7 @@
 import 'dart:math' as math;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'country_code_picker.dart';
 import 'country_code_picker_modal.dart';
 import 'models/country_code.dart';
 import 'models/country_data.dart';
