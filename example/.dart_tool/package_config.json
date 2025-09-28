@@ -32,7 +32,7 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "country_code_picker_plus",
+      "name": "country_code_max",
       "rootUri": "../../",
       "packageUri": "lib/",
       "languageVersion": "3.0"
@@ -266,7 +266,7 @@
       "languageVersion": "3.3"
     },
     {
-      "name": "country_code_picker_plus_example",
+      "name": "country_code_max_example",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.0"

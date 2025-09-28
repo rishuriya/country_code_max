@@ -1,4 +1,4 @@
-library country_code_picker_plus;
+library country_code_max;
 
 export 'src/animated_country_code_picker.dart';
 export 'src/country_code_picker.dart';

@@ -1,5 +1,5 @@
-name: country_code_picker_plus_example
-description: Example app for country_code_picker_plus package
+name: country_code_max_example
+description: Example app for country_code_max package
 version: 1.0.0+1
 
 environment:
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  country_code_picker_plus:
+  country_code_max:
     path: ../
   flutter_screenutil: ^5.9.0
   google_fonts: ^6.1.0

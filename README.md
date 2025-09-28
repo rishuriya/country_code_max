@@ -1,4 +1,4 @@
-# Country Code Picker Plus
+# Country Code Max
 
 A beautiful, animated, and theme-aware country code picker for Flutter that works seamlessly across web and mobile platforms.
 
@@ -18,7 +18,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  country_code_picker_plus: ^1.0.0
+  country_code_max: ^1.0.0
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ dependencies:
 ### Basic Usage
 
 ```dart
-import 'package:country_code_picker_plus/country_code_picker_plus.dart';
+import 'package:country_code_max/country_code_max.dart';
 
 AnimatedCountryCodePicker(
   onCountrySelected: (country) {
