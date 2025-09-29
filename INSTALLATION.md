@@ -35,7 +35,7 @@ dependencies:
 Add to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  country_code_max: ^1.0.0
+  country_code_max: ^1.0.1
 ```
 
 ## Required Dependencies

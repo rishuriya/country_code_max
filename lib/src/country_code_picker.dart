@@ -6,17 +6,30 @@ import 'country_code_picker_modal.dart';
 import 'models/country_code.dart';
 import 'models/country_data.dart';
 
+/// Compact country code selector showing a dial code with optional flag.
+///
+/// Taps open a modal (`CountryCodePickerModal`) to search and pick a country.
 class CountryCodePicker extends StatefulWidget {
+  /// Two-letter ISO code to preselect, e.g. `"NP"`.
   final String? initialCountryCode;
+  /// ISO codes to pin at the top of the modal.
   final List<String>? favorites;
+  /// Whether to display the search bar in the modal.
   final bool showSearchBar;
+  /// Whether to display the dialing code text in the trigger.
   final bool showDialCode;
+  /// Whether to show flags.
   final bool showFlags;
+  /// Callback when a country is selected.
   final Function(CountryCode)? onCountrySelected;
+  /// Optional search hint text for the modal.
   final String? searchHint;
+  /// Fixed height of the tap target.
   final double? height;
+  /// Fixed width of the tap target.
   final double? width;
 
+  /// Creates a compact country code picker widget.
   const CountryCodePicker({
     Key? key,
     this.initialCountryCode,
@@ -157,11 +170,11 @@ class _CountryCodePickerState extends State<CountryCodePicker>
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           ),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -189,7 +202,7 @@ class _CountryCodePickerState extends State<CountryCodePicker>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.r),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: ClipRRect(
@@ -208,7 +221,7 @@ class _CountryCodePickerState extends State<CountryCodePicker>
   Widget _buildDefaultFlag() {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(4.r),
       ),
       child: Icon(
@@ -242,7 +255,7 @@ class _CountryCodePickerState extends State<CountryCodePicker>
           scale: _scaleAnimation.value,
           child: Icon(
             Icons.keyboard_arrow_down_rounded,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
             size: 20.r,
           ),
         );

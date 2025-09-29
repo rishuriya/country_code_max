@@ -76,6 +76,14 @@ void main() {
       expect(CountryData.countries.length, greaterThan(50));
     });
 
+    test('CountryData contains Nepal with correct dial code', () {
+      final nepal = CountryData.countries.firstWhere(
+        (c) => c.code == 'NP' || c.name == 'Nepal',
+        orElse: () => throw Exception('Nepal not found in CountryData'),
+      );
+      expect(nepal.dialCode, '+977');
+    });
+
     testWidgets('AnimatedCountryCodePicker with label renders correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         ScreenUtilInit(

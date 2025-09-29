@@ -5,15 +5,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'models/country_code.dart';
 
+/// Modal UI for browsing and searching countries.
+///
+/// Used internally by the picker widgets but can be embedded directly.
 class CountryCodePickerModal extends StatefulWidget {
+  /// Source list of countries to display.
   final List<CountryCode> countries;
+  /// ISO codes to pin as favorites at the top.
   final List<String>? favorites;
+  /// Whether to show the search bar.
   final bool showSearchBar;
+  /// Whether to show country flags.
   final bool showFlags;
+  /// Placeholder text for the search input.
   final String? searchHint;
+  /// Called when a country is selected.
   final Function(CountryCode) onCountrySelected;
+  /// Called when the modal should close.
   final VoidCallback onClose;
 
+  /// Creates a modal used to choose a country.
   const CountryCodePickerModal({
     Key? key,
     required this.countries,
@@ -194,7 +205,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
             GestureDetector(
               onTap: widget.onClose,
               child: Container(
-                color: Colors.black.withOpacity(_fadeAnimation.value * 0.5),
+                color: Colors.black.withValues(alpha: _fadeAnimation.value * 0.5),
               ),
             ),
             
@@ -216,7 +227,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                           borderRadius: BorderRadius.circular(24.r),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 20,
                               offset: const Offset(0, 5),
                             ),
@@ -256,7 +267,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 20,
                               offset: const Offset(0, -5),
                             ),
@@ -296,7 +307,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -338,7 +349,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
         ),
       ),
       child: TextField(
@@ -351,12 +362,12 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
           hintText: widget.searchHint ?? 'Search countries...',
           hintStyle: GoogleFonts.plusJakartaSans(
             fontSize: 16.sp,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
           ),
           prefixIcon: Icon(
             Icons.search_rounded,
             size: 20.r,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
           ),
           suffixIcon: _isSearching
               ? GestureDetector(
@@ -366,7 +377,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                   child: Icon(
                     Icons.clear_rounded,
                     size: 20.r,
-                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                   ),
                 )
               : null,
@@ -408,7 +419,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
             style: GoogleFonts.plusJakartaSans(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
             ),
           ),
         ),
@@ -429,7 +440,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Divider(
-            color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           ),
         ),
         SizedBox(height: 20.h),
@@ -445,10 +456,10 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
         margin: EdgeInsets.only(right: 12.w),
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
           ),
         ),
         child: Column(
@@ -470,7 +481,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
               country.dialCode,
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 8.sp,
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -500,7 +511,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: Theme.of(context).colorScheme.outline.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
           ),
         ),
         child: Row(
@@ -525,7 +536,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                     country.dialCode,
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 14.sp,
-                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                   ),
                 ],
@@ -553,7 +564,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.r),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: ClipRRect(
@@ -572,7 +583,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
   Widget _buildDefaultFlag(double size) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(4.r),
       ),
       child: Icon(

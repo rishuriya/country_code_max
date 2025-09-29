@@ -1,6 +1,8 @@
 import 'country_code.dart';
 
+/// Static repository of supported countries and dialing codes.
 class CountryData {
+  /// Master list of countries available to the pickers.
   static const List<CountryCode> countries = [
     CountryCode(name: 'United States', code: 'US', dialCode: '+1'),
     CountryCode(name: 'India', code: 'IN', dialCode: '+91'),
@@ -99,5 +101,19 @@ class CountryData {
     CountryCode(name: 'Togo', code: 'TG', dialCode: '+228'),
     CountryCode(name: 'Gambia', code: 'GM', dialCode: '+220'),
     CountryCode(name: 'Cape Verde', code: 'CV', dialCode: '+238'),
+    CountryCode(name: 'Nepal', code: 'NP', dialCode: '+977'),
+    CountryCode(name: 'Bhutan', code: 'BT', dialCode: '+975'),
+    CountryCode(name: 'Maldives', code: 'MV', dialCode: '+960'),
+    CountryCode(name: 'Sri Lanka', code: 'LK', dialCode: '+94'),
+    CountryCode(name: 'Bangladesh', code: 'BD', dialCode: '+880'),
+    CountryCode(name: 'Pakistan', code: 'PK', dialCode: '+92'),
+    CountryCode(name: 'Afghanistan', code: 'AF', dialCode: '+93'),
+    CountryCode(name: 'Iran', code: 'IR', dialCode: '+98'),
+    CountryCode(name: 'Iraq', code: 'IQ', dialCode: '+964'),
+    CountryCode(name: 'Kuwait', code: 'KW', dialCode: '+965'),
+    CountryCode(name: 'Saudi Arabia', code: 'SA', dialCode: '+966'),
+    CountryCode(name: 'United Arab Emirates', code: 'AE', dialCode: '+971'),
+    CountryCode(name: 'Oman', code: 'OM', dialCode: '+968'),
+    CountryCode(name: 'Qatar', code: 'QA', dialCode: '+974'),
   ];
 }
