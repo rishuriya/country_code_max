@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "country_code_max",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "dependencies": [
         "flutter",
         "flutter_screenutil",

@@ -18,7 +18,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  country_code_max: ^1.0.0
+  country_code_max: ^1.0.2
 ```
 
 ## Usage
