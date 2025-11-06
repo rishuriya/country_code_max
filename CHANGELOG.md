@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2025-01-27
+### Changed
+- **Migrated from `flutter_screenutil` to `scalex` package** for better desktop and web compatibility
+  - ScaleX provides the same simple syntax (`4.w`, `4.h`, `4.sp`, `4.r`) as ScreenUtil
+  - Smart scaling: only scales on mobile/tablet, keeps fixed sizes on desktop
+  - Better web-friendly behavior that doesn't break desktop layouts
+  - Zero dependencies (pure Dart)
+
+### Fixed
+- **Fixed `LateInitializationError`** when `ScreenUtilInit` (now `ScaleXInit`) is not used in the app
+  - Added `ScreenUtilHelper` utility class with safe fallback to MediaQuery
+  - All screen utility extensions now gracefully fall back to MediaQuery-based calculations if ScaleX is not initialized
+  - Prevents crashes when apps don't use `ScaleXInit` wrapper
+
+### Technical Details
+- Replaced all direct screen utility extension usages with `ScreenUtilHelper` safe methods
+- Updated internal implementation to use ScaleX extensions with try-catch fallbacks
+- Maintains backward compatibility with existing code using the same syntax
+
 ## [1.0.2] - 2025-10-08
 ### Added
 - **Major expansion of country database** with 100+ additional countries:

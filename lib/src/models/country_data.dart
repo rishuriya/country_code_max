@@ -33,10 +33,14 @@ class CountryData {
     CountryCode(name: 'Dominica', code: 'DM', dialCode: '+1767'),
     CountryCode(name: 'Antigua and Barbuda', code: 'AG', dialCode: '+1268'),
     CountryCode(name: 'Saint Kitts and Nevis', code: 'KN', dialCode: '+1869'),
-    CountryCode(name: 'Saint Vincent and the Grenadines', code: 'VC', dialCode: '+1784'),
+    CountryCode(
+        name: 'Saint Vincent and the Grenadines',
+        code: 'VC',
+        dialCode: '+1784'),
     CountryCode(name: 'Aruba', code: 'AW', dialCode: '+297'),
     CountryCode(name: 'Cayman Islands', code: 'KY', dialCode: '+1345'),
-    CountryCode(name: 'Turks and Caicos Islands', code: 'TC', dialCode: '+1649'),
+    CountryCode(
+        name: 'Turks and Caicos Islands', code: 'TC', dialCode: '+1649'),
 
     CountryCode(name: 'India', code: 'IN', dialCode: '+91'),
     CountryCode(name: 'United Kingdom', code: 'GB', dialCode: '+44'),
@@ -172,7 +176,8 @@ class CountryData {
     CountryCode(name: 'Eritrea', code: 'ER', dialCode: '+291'),
     CountryCode(name: 'Chad', code: 'TD', dialCode: '+235'),
     CountryCode(name: 'Central African Republic', code: 'CF', dialCode: '+236'),
-    CountryCode(name: 'Democratic Republic of Congo', code: 'CD', dialCode: '+243'),
+    CountryCode(
+        name: 'Democratic Republic of Congo', code: 'CD', dialCode: '+243'),
     CountryCode(name: 'Republic of Congo', code: 'CG', dialCode: '+242'),
     CountryCode(name: 'Gabon', code: 'GA', dialCode: '+241'),
     CountryCode(name: 'Equatorial Guinea', code: 'GQ', dialCode: '+240'),

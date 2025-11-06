@@ -53,7 +53,7 @@
       "name": "flutter",
       "rootUri": "file:///Users/rishav/dev/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.7"
+      "languageVersion": "3.8"
     },
     {
       "name": "flutter_lints",
@@ -62,16 +62,10 @@
       "languageVersion": "3.1"
     },
     {
-      "name": "flutter_screenutil",
-      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/flutter_screenutil-5.9.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "flutter_test",
       "rootUri": "file:///Users/rishav/dev/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.7"
+      "languageVersion": "3.8"
     },
     {
       "name": "google_fonts",
@@ -93,19 +87,19 @@
     },
     {
       "name": "leak_tracker",
-      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/leak_tracker-10.0.9",
+      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/leak_tracker-11.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_flutter_testing",
-      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.9",
+      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.10",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_testing",
-      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
+      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/leak_tracker_testing-3.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -188,10 +182,16 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "scalex",
+      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/scalex-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/rishav/dev/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "3.7"
+      "languageVersion": "3.8"
     },
     {
       "name": "source_span",
@@ -225,7 +225,7 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/test_api-0.7.4",
+      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/test_api-0.7.6",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -237,9 +237,9 @@
     },
     {
       "name": "vector_math",
-      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
+      "rootUri": "file:///Users/rishav/.pub-cache/hosted/pub.dev/vector_math-2.2.0",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.1"
     },
     {
       "name": "vm_service",
@@ -267,8 +267,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.8.0",
+  "generatorVersion": "3.9.2",
   "flutterRoot": "file:///Users/rishav/dev/flutter",
-  "flutterVersion": "3.32.0",
+  "flutterVersion": "3.35.7",
   "pubCache": "file:///Users/rishav/.pub-cache"
 }

@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'utils/screen_util_helper.dart';
 import 'models/country_code.dart';
 
 /// Modal UI for browsing and searching countries.
@@ -10,16 +10,22 @@ import 'models/country_code.dart';
 class CountryCodePickerModal extends StatefulWidget {
   /// Source list of countries to display.
   final List<CountryCode> countries;
+
   /// ISO codes to pin as favorites at the top.
   final List<String>? favorites;
+
   /// Whether to show the search bar.
   final bool showSearchBar;
+
   /// Whether to show country flags.
   final bool showFlags;
+
   /// Placeholder text for the search input.
   final String? searchHint;
+
   /// Called when a country is selected.
   final Function(CountryCode) onCountrySelected;
+
   /// Called when the modal should close.
   final VoidCallback onClose;
 
@@ -44,7 +50,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
   late AnimationController _slideController;
   late AnimationController _fadeController;
   late AnimationController _scaleController;
-  
+
   late Animation<Offset> _slideAnimation;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
@@ -110,7 +116,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
 
   void _setupCountries() {
     _filteredCountries = List.from(widget.countries);
-    
+
     if (widget.favorites != null && widget.favorites!.isNotEmpty) {
       _favoriteCountries = widget.countries.where((country) {
         return widget.favorites!.contains(country.code);
@@ -134,8 +140,8 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
     } else {
       _filteredCountries = widget.countries.where((country) {
         return country.name.toLowerCase().contains(query) ||
-               country.code.toLowerCase().contains(query) ||
-               country.dialCode.contains(query);
+            country.code.toLowerCase().contains(query) ||
+            country.dialCode.contains(query);
       }).toList();
     }
   }
@@ -152,18 +158,18 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
 
   void _selectCountry(CountryCode country) {
     if (_isDisposed) return;
-    
+
     // Add selection animation
     _scaleController.forward().then((_) {
       if (!_isDisposed) {
         _scaleController.reverse();
       }
     });
-    
+
     // Close modal with delay for animation
     Future.delayed(const Duration(milliseconds: 200), () {
       if (_isDisposed) return;
-      
+
       widget.onCountrySelected(country);
       // Close the modal by reversing animations
       _slideController.reverse();
@@ -181,7 +187,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth >= 768;
-    
+
     // Update slide animation based on screen size
     _slideAnimation = Tween<Offset>(
       begin: isLargeScreen ? const Offset(0, 0.3) : const Offset(0, 1),
@@ -190,7 +196,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
       parent: _slideController,
       curve: Curves.easeOutCubic,
     ));
-    
+
     return AnimatedBuilder(
       animation: Listenable.merge([
         _slideController,
@@ -204,10 +210,11 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
             GestureDetector(
               onTap: widget.onClose,
               child: Container(
-                color: Colors.black.withValues(alpha: _fadeAnimation.value * 0.5),
+                color: Colors.black.withValues(
+                    alpha: (_fadeAnimation.value * 0.5).clamp(0.0, 1.0)),
               ),
             ),
-            
+
             // Modal Content
             if (isLargeScreen)
               // Center modal for large screens
@@ -219,11 +226,16 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                     child: Material(
                       color: Colors.transparent,
                       child: Container(
-                        width: math.min(500.w, screenWidth * 0.8),
-                        height: math.min(600.h, screenHeight * 0.8),
+                        width: math.min(
+                            ScreenUtilHelper.safeWidth(context, 500),
+                            screenWidth * 0.8),
+                        height: math.min(
+                            ScreenUtilHelper.safeHeight(context, 600),
+                            screenHeight * 0.8),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.surface,
-                          borderRadius: BorderRadius.circular(24.r),
+                          borderRadius: BorderRadius.circular(
+                              ScreenUtilHelper.safeRadius(context, 24)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.1),
@@ -261,8 +273,10 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(24.r),
-                            topRight: Radius.circular(24.r),
+                            topLeft: Radius.circular(
+                                ScreenUtilHelper.safeRadius(context, 24)),
+                            topRight: Radius.circular(
+                                ScreenUtilHelper.safeRadius(context, 24)),
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -292,46 +306,56 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.all(ScreenUtilHelper.safeWidth(context, 20)),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24.r),
-          topRight: Radius.circular(24.r),
+          topLeft: Radius.circular(ScreenUtilHelper.safeRadius(context, 24)),
+          topRight: Radius.circular(ScreenUtilHelper.safeRadius(context, 24)),
         ),
       ),
       child: Row(
         children: [
           Container(
-            width: 40.w,
-            height: 4.h,
+            width: ScreenUtilHelper.safeWidth(context, 40),
+            height: ScreenUtilHelper.safeHeight(context, 4),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(2.r),
+              color:
+                  Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(
+                  ScreenUtilHelper.safeRadius(context, 2)),
             ),
           ),
           const Spacer(),
-          Text(
-            'Select Country',
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface,
+          Flexible(
+            child: Text(
+              'Select Country',
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: ScreenUtilHelper.safeFontSize(context, 18),
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           const Spacer(),
           GestureDetector(
             onTap: widget.onClose,
             child: Container(
-              width: 32.w,
-              height: 32.h,
+              width: ScreenUtilHelper.safeWidth(context, 32),
+              height: ScreenUtilHelper.safeHeight(context, 32),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.outline.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16.r),
+                color: Theme.of(context)
+                    .colorScheme
+                    .outline
+                    .withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(
+                    ScreenUtilHelper.safeRadius(context, 16)),
               ),
               child: Icon(
                 Icons.close_rounded,
-                size: 18.r,
+                size: ScreenUtilHelper.safeRadius(context, 18),
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
@@ -343,10 +367,12 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
 
   Widget _buildSearchBar() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.w),
+      margin: EdgeInsets.symmetric(
+          horizontal: ScreenUtilHelper.safeWidth(context, 20)),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 12)),
         border: Border.all(
           color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
         ),
@@ -354,19 +380,21 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
       child: TextField(
         controller: _searchTextController,
         style: GoogleFonts.plusJakartaSans(
-          fontSize: 16.sp,
+          fontSize: ScreenUtilHelper.safeFontSize(context, 16),
           color: Theme.of(context).colorScheme.onSurface,
         ),
         decoration: InputDecoration(
           hintText: widget.searchHint ?? 'Search countries...',
           hintStyle: GoogleFonts.plusJakartaSans(
-            fontSize: 16.sp,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+            fontSize: ScreenUtilHelper.safeFontSize(context, 16),
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
           ),
           prefixIcon: Icon(
             Icons.search_rounded,
-            size: 20.r,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+            size: ScreenUtilHelper.safeRadius(context, 20),
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
           ),
           suffixIcon: _isSearching
               ? GestureDetector(
@@ -375,15 +403,18 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                   },
                   child: Icon(
                     Icons.clear_rounded,
-                    size: 20.r,
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                    size: ScreenUtilHelper.safeRadius(context, 20),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.5),
                   ),
                 )
               : null,
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 16.h,
+            horizontal: ScreenUtilHelper.safeWidth(context, 16),
+            vertical: ScreenUtilHelper.safeHeight(context, 16),
           ),
         ),
       ),
@@ -393,7 +424,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
   Widget _buildContent() {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(top: 20.h),
+        margin: EdgeInsets.only(top: ScreenUtilHelper.safeHeight(context, 20)),
         child: Column(
           children: [
             if (_favoriteCountries.isNotEmpty && !_isSearching)
@@ -412,22 +443,27 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtilHelper.safeWidth(context, 20)),
           child: Text(
             'Favorites',
             style: GoogleFonts.plusJakartaSans(
-              fontSize: 14.sp,
+              fontSize: ScreenUtilHelper.safeFontSize(context, 14),
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.7),
             ),
           ),
         ),
-        SizedBox(height: 12.h),
+        SizedBox(height: ScreenUtilHelper.safeHeight(context, 12)),
         Container(
-          height: 80.h,
+          height: ScreenUtilHelper.safeHeight(context, 80),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(
+                horizontal: ScreenUtilHelper.safeWidth(context, 20)),
             itemCount: _favoriteCountries.length,
             itemBuilder: (context, index) {
               final country = _favoriteCountries[index];
@@ -435,14 +471,15 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
             },
           ),
         ),
-        SizedBox(height: 20.h),
+        SizedBox(height: ScreenUtilHelper.safeHeight(context, 20)),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtilHelper.safeWidth(context, 20)),
           child: Divider(
             color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           ),
         ),
-        SizedBox(height: 20.h),
+        SizedBox(height: ScreenUtilHelper.safeHeight(context, 20)),
       ],
     );
   }
@@ -451,12 +488,13 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
     return GestureDetector(
       onTap: () => _selectCountry(country),
       child: Container(
-        width: 60.w,
-        margin: EdgeInsets.only(right: 12.w),
-        padding: EdgeInsets.all(8.w),
+        width: ScreenUtilHelper.safeWidth(context, 60),
+        margin: EdgeInsets.only(right: ScreenUtilHelper.safeWidth(context, 12)),
+        padding: EdgeInsets.all(ScreenUtilHelper.safeWidth(context, 8)),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius:
+              BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 12)),
           border: Border.all(
             color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
           ),
@@ -465,13 +503,14 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (widget.showFlags) ...[
-              _buildCountryFlag(country, size: 24.w),
-              SizedBox(height: 4.h),
+              _buildCountryFlag(country,
+                  size: ScreenUtilHelper.safeWidth(context, 24)),
+              SizedBox(height: ScreenUtilHelper.safeHeight(context, 4)),
             ],
             Text(
               country.code,
               style: GoogleFonts.plusJakartaSans(
-                fontSize: 10.sp,
+                fontSize: ScreenUtilHelper.safeFontSize(context, 10),
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -479,8 +518,11 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
             Text(
               country.dialCode,
               style: GoogleFonts.plusJakartaSans(
-                fontSize: 8.sp,
-                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.7),
+                fontSize: ScreenUtilHelper.safeFontSize(context, 8),
+                color: Theme.of(context)
+                    .colorScheme
+                    .primary
+                    .withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -491,7 +533,8 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
 
   Widget _buildCountriesList() {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(
+          horizontal: ScreenUtilHelper.safeWidth(context, 20)),
       itemCount: _filteredCountries.length,
       itemBuilder: (context, index) {
         final country = _filteredCountries[index];
@@ -504,11 +547,15 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
     return GestureDetector(
       onTap: () => _selectCountry(country),
       child: Container(
-        margin: EdgeInsets.only(bottom: 8.h),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        margin:
+            EdgeInsets.only(bottom: ScreenUtilHelper.safeHeight(context, 8)),
+        padding: EdgeInsets.symmetric(
+            horizontal: ScreenUtilHelper.safeWidth(context, 16),
+            vertical: ScreenUtilHelper.safeHeight(context, 12)),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius:
+              BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 12)),
           border: Border.all(
             color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
           ),
@@ -517,7 +564,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
           children: [
             if (widget.showFlags) ...[
               _buildCountryFlag(country),
-              SizedBox(width: 12.w),
+              SizedBox(width: ScreenUtilHelper.safeWidth(context, 12)),
             ],
             Expanded(
               child: Column(
@@ -526,7 +573,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                   Text(
                     country.name,
                     style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16.sp,
+                      fontSize: ScreenUtilHelper.safeFontSize(context, 16),
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
@@ -534,8 +581,11 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
                   Text(
                     country.dialCode,
                     style: GoogleFonts.plusJakartaSans(
-                      fontSize: 14.sp,
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                      fontSize: ScreenUtilHelper.safeFontSize(context, 14),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.6),
                     ),
                   ),
                 ],
@@ -544,7 +594,7 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
             Text(
               country.code,
               style: GoogleFonts.plusJakartaSans(
-                fontSize: 12.sp,
+                fontSize: ScreenUtilHelper.safeFontSize(context, 12),
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -556,23 +606,26 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
   }
 
   Widget _buildCountryFlag(CountryCode country, {double? size}) {
-    final flagSize = size ?? 32.w;
+    final flagSize = size ?? ScreenUtilHelper.safeWidth(context, 32);
     return Container(
       width: flagSize,
       height: flagSize * 0.75,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
         border: Border.all(
           color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
         child: country.flag != null
             ? Image.asset(
                 country.flag!,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => _buildDefaultFlag(flagSize),
+                errorBuilder: (context, error, stackTrace) =>
+                    _buildDefaultFlag(flagSize),
               )
             : _buildDefaultFlag(flagSize),
       ),
@@ -583,7 +636,8 @@ class _CountryCodePickerModalState extends State<CountryCodePickerModal>
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
       ),
       child: Icon(
         Icons.flag,

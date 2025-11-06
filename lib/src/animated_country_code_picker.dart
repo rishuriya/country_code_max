@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'utils/screen_util_helper.dart';
 import 'country_code_picker_modal.dart';
 import 'models/country_code.dart';
 import 'models/country_data.dart';
@@ -12,26 +12,37 @@ import 'models/country_data.dart';
 class AnimatedCountryCodePicker extends StatefulWidget {
   /// Two-letter ISO code to preselect, e.g. `"NP"`.
   final String? initialCountryCode;
+
   /// ISO codes to pin at the top of the modal.
   final List<String>? favorites;
+
   /// Whether to display the search bar in the modal.
   final bool showSearchBar;
+
   /// Whether to display the dialing code text on the trigger.
   final bool showDialCode;
+
   /// Whether to show country flags.
   final bool showFlags;
+
   /// Callback with the selected country.
   final Function(CountryCode)? onCountrySelected;
+
   /// Optional search hint text for the modal.
   final String? searchHint;
+
   /// Fixed height of the input.
   final double? height;
+
   /// Fixed width of the input.
   final double? width;
+
   /// Optional label rendered above the input.
   final String? label;
+
   /// Shows a required asterisk next to the label when true.
   final bool isRequired;
+
   /// Error text shown below the input.
   final String? errorText;
 
@@ -53,7 +64,8 @@ class AnimatedCountryCodePicker extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AnimatedCountryCodePicker> createState() => _AnimatedCountryCodePickerState();
+  State<AnimatedCountryCodePicker> createState() =>
+      _AnimatedCountryCodePickerState();
 }
 
 class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
@@ -61,7 +73,7 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
   late AnimationController _hoverController;
   late AnimationController _focusController;
   late AnimationController _errorController;
-  
+
   late Animation<double> _hoverAnimation;
   late Animation<double> _focusAnimation;
   late Animation<double> _errorAnimation;
@@ -146,7 +158,7 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
   void _showCountryPickerModal() {
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth >= 768;
-    
+
     if (isLargeScreen) {
       // Use overlay for large screens
       showDialog(
@@ -223,7 +235,7 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
   @override
   Widget build(BuildContext context) {
     final hasError = widget.errorText != null && widget.errorText!.isNotEmpty;
-    
+
     if (hasError) {
       _errorController.forward();
     } else {
@@ -242,12 +254,12 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
 
   Widget _buildLabel() {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.only(bottom: ScreenUtilHelper.safeHeight(context, 8)),
       child: RichText(
         text: TextSpan(
           text: widget.label,
           style: GoogleFonts.plusJakartaSans(
-            fontSize: 14.sp,
+            fontSize: ScreenUtilHelper.safeFontSize(context, 14),
             fontWeight: FontWeight.w500,
             color: Theme.of(context).colorScheme.onSurface,
           ),
@@ -256,7 +268,7 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
               TextSpan(
                 text: ' *',
                 style: GoogleFonts.plusJakartaSans(
-                  fontSize: 14.sp,
+                  fontSize: ScreenUtilHelper.safeFontSize(context, 14),
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).colorScheme.error,
                 ),
@@ -285,11 +297,13 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
               onEnter: (_) => _onHoverEnter(),
               onExit: (_) => _onHoverExit(),
               child: Container(
-                height: widget.height ?? 56.h,
+                height:
+                    widget.height ?? ScreenUtilHelper.safeHeight(context, 56),
                 width: widget.width,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(
+                      ScreenUtilHelper.safeRadius(context, 12)),
                   border: Border.all(
                     color: _getBorderColor(hasError),
                     width: _getBorderWidth(),
@@ -299,7 +313,7 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
                 child: Row(
                   children: [
                     _buildFlag(),
-                    SizedBox(width: 12.w),
+                    SizedBox(width: ScreenUtilHelper.safeWidth(context, 12)),
                     _buildCountryInfo(),
                     const Spacer(),
                     _buildDropdownIcon(),
@@ -349,24 +363,27 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
 
   Widget _buildFlag() {
     if (!widget.showFlags) return SizedBox.shrink();
-    
+
     return Container(
-      margin: EdgeInsets.only(left: 16.w),
-      width: 32.w,
-      height: 24.h,
+      margin: EdgeInsets.only(left: ScreenUtilHelper.safeWidth(context, 16)),
+      width: ScreenUtilHelper.safeWidth(context, 32),
+      height: ScreenUtilHelper.safeHeight(context, 24),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
         border: Border.all(
           color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
         child: _selectedCountry?.flag != null
             ? Image.asset(
                 _selectedCountry!.flag!,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => _buildDefaultFlag(),
+                errorBuilder: (context, error, stackTrace) =>
+                    _buildDefaultFlag(),
               )
             : _buildDefaultFlag(),
       ),
@@ -377,11 +394,12 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
       ),
       child: Icon(
         Icons.flag,
-        size: 16.r,
+        size: ScreenUtilHelper.safeRadius(context, 16),
         color: Theme.of(context).colorScheme.primary,
       ),
     );
@@ -389,11 +407,11 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
 
   Widget _buildCountryInfo() {
     return Container(
-      width: 60.w,
+      width: ScreenUtilHelper.safeWidth(context, 60),
       child: Text(
         _selectedCountry?.dialCode ?? '+1',
         style: GoogleFonts.plusJakartaSans(
-          fontSize: 14.sp,
+          fontSize: ScreenUtilHelper.safeFontSize(context, 14),
           fontWeight: FontWeight.w600,
           color: Theme.of(context).colorScheme.onSurface,
         ),
@@ -409,13 +427,17 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
         return Transform.rotate(
           angle: _focusAnimation.value * math.pi,
           child: Container(
-            margin: EdgeInsets.only(right: 16.w),
+            margin:
+                EdgeInsets.only(right: ScreenUtilHelper.safeWidth(context, 16)),
             child: Icon(
               Icons.keyboard_arrow_down_rounded,
               color: _isFocused
                   ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-              size: 20.r,
+                  : Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.6),
+              size: ScreenUtilHelper.safeRadius(context, 20),
             ),
           ),
         );
@@ -430,22 +452,23 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
         return Transform.translate(
           offset: Offset(0, (1 - _errorAnimation.value) * -10),
           child: Opacity(
-            opacity: _errorAnimation.value,
+            opacity: _errorAnimation.value.clamp(0.0, 1.0),
             child: Container(
-              margin: EdgeInsets.only(top: 8.h),
+              margin:
+                  EdgeInsets.only(top: ScreenUtilHelper.safeHeight(context, 8)),
               child: Row(
                 children: [
                   Icon(
                     Icons.error_outline_rounded,
-                    size: 16.r,
+                    size: ScreenUtilHelper.safeRadius(context, 16),
                     color: Theme.of(context).colorScheme.error,
                   ),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: ScreenUtilHelper.safeWidth(context, 8)),
                   Expanded(
                     child: Text(
                       widget.errorText!,
                       style: GoogleFonts.plusJakartaSans(
-                        fontSize: 12.sp,
+                        fontSize: ScreenUtilHelper.safeFontSize(context, 12),
                         color: Theme.of(context).colorScheme.error,
                       ),
                     ),

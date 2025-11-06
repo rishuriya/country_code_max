@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:scalex/scalex.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:country_code_max/country_code_max.dart';
 
@@ -10,20 +10,21 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(
-          title: 'Country Code Max Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          home: MyHomePage(),
-        );
-      },
+    return ScaleXInit(
+      config: ScaleXConfig(
+        baseWidth: 375.0,
+        mobileBreakpoint: 640.0,
+        tabletBreakpoint: 1024.0,
+        scaleOnDesktop: false,
+      ),
+      child: MaterialApp(
+        title: 'Country Code Max Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: MyHomePage(),
+      ),
     );
   }
 }
@@ -117,7 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
             AnimatedCountryCodePicker(
               label: "Country Code",
               isRequired: true,
-              errorText: _selectedCountry == null ? "Please select a country" : null,
+              errorText:
+                  _selectedCountry == null ? "Please select a country" : null,
               onCountrySelected: (country) {
                 setState(() {
                   _selectedCountry = country;
@@ -129,7 +131,10 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Column(

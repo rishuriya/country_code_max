@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'country_code_picker_modal.dart';
 import 'models/country_code.dart';
 import 'models/country_data.dart';
+import 'utils/screen_util_helper.dart';
 
 /// Compact country code selector showing a dial code with optional flag.
 ///
@@ -11,20 +11,28 @@ import 'models/country_data.dart';
 class CountryCodePicker extends StatefulWidget {
   /// Two-letter ISO code to preselect, e.g. `"NP"`.
   final String? initialCountryCode;
+
   /// ISO codes to pin at the top of the modal.
   final List<String>? favorites;
+
   /// Whether to display the search bar in the modal.
   final bool showSearchBar;
+
   /// Whether to display the dialing code text in the trigger.
   final bool showDialCode;
+
   /// Whether to show flags.
   final bool showFlags;
+
   /// Callback when a country is selected.
   final Function(CountryCode)? onCountrySelected;
+
   /// Optional search hint text for the modal.
   final String? searchHint;
+
   /// Fixed height of the tap target.
   final double? height;
+
   /// Fixed width of the tap target.
   final double? width;
 
@@ -79,7 +87,7 @@ class _CountryCodePickerState extends State<CountryCodePicker>
 
   void _loadCountries() {
     _allCountries = CountryData.countries;
-    
+
     if (widget.initialCountryCode != null) {
       _selectedCountry = _allCountries.firstWhere(
         (country) => country.code == widget.initialCountryCode,
@@ -103,7 +111,7 @@ class _CountryCodePickerState extends State<CountryCodePicker>
   void _showCountryPickerModal() {
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth >= 768;
-    
+
     if (isLargeScreen) {
       // Use overlay for large screens
       showDialog(
@@ -163,17 +171,19 @@ class _CountryCodePickerState extends State<CountryCodePicker>
         _showCountryPickerModal();
       },
       child: Container(
-        height: widget.height ?? 56.h,
+        height: widget.height ?? ScreenUtilHelper.safeHeight(context, 56),
         width: widget.width,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius:
+              BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 12)),
           border: Border.all(
             color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           ),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
+              color:
+                  Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -182,7 +192,7 @@ class _CountryCodePickerState extends State<CountryCodePicker>
         child: Row(
           children: [
             _buildFlag(),
-            SizedBox(width: 8.w),
+            SizedBox(width: ScreenUtilHelper.safeWidth(context, 8)),
             _buildCountryInfo(),
             const Spacer(),
             _buildDropdownIcon(),
@@ -194,23 +204,26 @@ class _CountryCodePickerState extends State<CountryCodePicker>
 
   Widget _buildFlag() {
     if (!widget.showFlags) return SizedBox.shrink();
-    
+
     return Container(
-      width: 32.w,
-      height: 24.h,
+      width: ScreenUtilHelper.safeWidth(context, 32),
+      height: ScreenUtilHelper.safeHeight(context, 24),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
         border: Border.all(
           color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
         child: _selectedCountry?.flag != null
             ? Image.asset(
                 _selectedCountry!.flag!,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => _buildDefaultFlag(),
+                errorBuilder: (context, error, stackTrace) =>
+                    _buildDefaultFlag(),
               )
             : _buildDefaultFlag(),
       ),
@@ -221,11 +234,12 @@ class _CountryCodePickerState extends State<CountryCodePicker>
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius:
+            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
       ),
       child: Icon(
         Icons.flag,
-        size: 16.r,
+        size: ScreenUtilHelper.safeRadius(context, 16),
         color: Theme.of(context).colorScheme.primary,
       ),
     );
@@ -233,11 +247,11 @@ class _CountryCodePickerState extends State<CountryCodePicker>
 
   Widget _buildCountryInfo() {
     return Container(
-      width: 60.w,
+      width: ScreenUtilHelper.safeWidth(context, 60),
       child: Text(
         _selectedCountry?.dialCode ?? '+1',
         style: GoogleFonts.plusJakartaSans(
-          fontSize: 14.sp,
+          fontSize: ScreenUtilHelper.safeFontSize(context, 14),
           fontWeight: FontWeight.w600,
           color: Theme.of(context).colorScheme.onSurface,
         ),
@@ -254,8 +268,9 @@ class _CountryCodePickerState extends State<CountryCodePicker>
           scale: _scaleAnimation.value,
           child: Icon(
             Icons.keyboard_arrow_down_rounded,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-            size: 20.r,
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+            size: ScreenUtilHelper.safeRadius(context, 20),
           ),
         );
       },

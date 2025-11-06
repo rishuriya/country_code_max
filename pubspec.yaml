@@ -1,6 +1,6 @@
 name: country_code_max
 description: A beautiful, animated, and theme-aware country code picker for Flutter that works seamlessly across web and mobile platforms.
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/rishuriya/country_code_max
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_screenutil: ^5.9.0
+  scalex: ^1.0.1
   google_fonts: ^6.1.0
 
 dev_dependencies:

@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:scalex/scalex.dart';
 import '../lib/country_code_max.dart';
 
 void main() {
   group('CountryCodeMax', () {
-    testWidgets('AnimatedCountryCodePicker renders correctly', (WidgetTester tester) async {
+    testWidgets('AnimatedCountryCodePicker renders correctly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        ScreenUtilInit(
-          designSize: const Size(375, 812),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return MaterialApp(
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                useMaterial3: true,
+        ScaleXInit(
+          config: ScaleXConfig(
+            baseWidth: 375,
+          ),
+          child: MaterialApp(
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+              useMaterial3: true,
+            ),
+            home: Scaffold(
+              body: AnimatedCountryCodePicker(
+                onCountrySelected: (country) {},
               ),
-              home: Scaffold(
-                body: AnimatedCountryCodePicker(
-                  onCountrySelected: (country) {},
-                ),
-              ),
-            );
-          },
+            ),
+          ),
         ),
       );
 
@@ -31,25 +30,24 @@ void main() {
       expect(find.byType(AnimatedCountryCodePicker), findsOneWidget);
     });
 
-    testWidgets('CountryCodePicker renders correctly', (WidgetTester tester) async {
+    testWidgets('CountryCodePicker renders correctly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        ScreenUtilInit(
-          designSize: const Size(375, 812),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return MaterialApp(
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                useMaterial3: true,
+        ScaleXInit(
+          config: ScaleXConfig(
+            baseWidth: 375,
+          ),
+          child: MaterialApp(
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+              useMaterial3: true,
+            ),
+            home: Scaffold(
+              body: CountryCodePicker(
+                onCountrySelected: (country) {},
               ),
-              home: Scaffold(
-                body: CountryCodePicker(
-                  onCountrySelected: (country) {},
-                ),
-              ),
-            );
-          },
+            ),
+          ),
         ),
       );
 
@@ -84,55 +82,63 @@ void main() {
       expect(nepal.dialCode, '+977');
     });
 
-    testWidgets('AnimatedCountryCodePicker with label renders correctly', (WidgetTester tester) async {
+    testWidgets('AnimatedCountryCodePicker with label renders correctly',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        ScreenUtilInit(
-          designSize: const Size(375, 812),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return MaterialApp(
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                useMaterial3: true,
+        ScaleXInit(
+          config: ScaleXConfig(
+            baseWidth: 375,
+          ),
+          child: MaterialApp(
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+              useMaterial3: true,
+            ),
+            home: Scaffold(
+              body: AnimatedCountryCodePicker(
+                label: 'Select Country',
+                isRequired: true,
+                onCountrySelected: (country) {},
               ),
-              home: Scaffold(
-                body: AnimatedCountryCodePicker(
-                  label: 'Select Country',
-                  isRequired: true,
-                  onCountrySelected: (country) {},
-                ),
-              ),
-            );
-          },
+            ),
+          ),
         ),
       );
 
       await tester.pumpAndSettle();
       expect(find.byType(AnimatedCountryCodePicker), findsOneWidget);
-      expect(find.text('Select Country *'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate((widget) {
+          if (widget is RichText) {
+            // Convert the TextSpan tree to plain text and compare
+            final plain = widget.text.toPlainText();
+            return plain.trim() == 'Select Country *';
+          }
+          return false;
+        }),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('AnimatedCountryCodePicker with error shows error text', (WidgetTester tester) async {
+    testWidgets('AnimatedCountryCodePicker with error shows error text',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
-        ScreenUtilInit(
-          designSize: const Size(375, 812),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return MaterialApp(
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                useMaterial3: true,
+        ScaleXInit(
+          config: ScaleXConfig(
+            baseWidth: 375,
+          ),
+          child: MaterialApp(
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+              useMaterial3: true,
+            ),
+            home: Scaffold(
+              body: AnimatedCountryCodePicker(
+                errorText: 'Please select a country',
+                onCountrySelected: (country) {},
               ),
-              home: Scaffold(
-                body: AnimatedCountryCodePicker(
-                  errorText: 'Please select a country',
-                  onCountrySelected: (country) {},
-                ),
-              ),
-            );
-          },
+            ),
+          ),
         ),
       );
 
@@ -143,33 +149,31 @@ void main() {
 
     testWidgets('CountryCodePicker can be tapped', (WidgetTester tester) async {
       await tester.pumpWidget(
-        ScreenUtilInit(
-          designSize: const Size(375, 812),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return MaterialApp(
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                useMaterial3: true,
+        ScaleXInit(
+          config: ScaleXConfig(
+            baseWidth: 375,
+          ),
+          child: MaterialApp(
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+              useMaterial3: true,
+            ),
+            home: Scaffold(
+              body: CountryCodePicker(
+                onCountrySelected: (country) {},
               ),
-              home: Scaffold(
-                body: CountryCodePicker(
-                  onCountrySelected: (country) {},
-                ),
-              ),
-            );
-          },
+            ),
+          ),
         ),
       );
 
       await tester.pumpAndSettle();
       expect(find.byType(CountryCodePicker), findsOneWidget);
-      
+
       // Tap the picker
       await tester.tap(find.byType(CountryCodePicker));
       await tester.pumpAndSettle();
-      
+
       // The modal should open (we can't test the full interaction without more setup)
       // but we can verify the widget responds to taps
       expect(find.byType(CountryCodePicker), findsOneWidget);

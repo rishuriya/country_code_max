@@ -18,8 +18,30 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  country_code_max: ^1.0.2
+  country_code_max: ^1.0.3
 ```
+
+### Optional: Initialize ScaleX (Recommended)
+
+For optimal responsive sizing, wrap your app with `ScaleXInit`:
+
+```dart
+import 'package:scalex/scalex.dart';
+
+ScaleXInit(
+  config: ScaleXConfig(
+    baseWidth: 375.0,
+    mobileBreakpoint: 640.0,
+    tabletBreakpoint: 1024.0,
+    scaleOnDesktop: false,
+  ),
+  child: MaterialApp(
+    // ... your app
+  ),
+)
+```
+
+**Note:** ScaleX initialization is optional. The package will automatically fall back to MediaQuery-based calculations if ScaleX is not initialized.
 
 ## Usage
 

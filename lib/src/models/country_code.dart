@@ -5,10 +5,13 @@
 class CountryCode {
   /// Human-readable country name, e.g. "Nepal".
   final String name;
+
   /// ISO 3166-1 alpha-2 country code, e.g. "NP".
   final String code;
+
   /// International telephone dialing prefix, e.g. "+977".
   final String dialCode;
+
   /// Optional flag asset path used for display.
   final String? flag;
 
@@ -32,10 +35,7 @@ class CountryCode {
 
   @override
   int get hashCode {
-    return name.hashCode ^
-        code.hashCode ^
-        dialCode.hashCode ^
-        flag.hashCode;
+    return name.hashCode ^ code.hashCode ^ dialCode.hashCode ^ flag.hashCode;
   }
 
   @override
