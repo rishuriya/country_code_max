@@ -311,9 +311,10 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
                   boxShadow: _getBoxShadow(),
                 ),
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     _buildFlag(),
-                    SizedBox(width: ScreenUtilHelper.safeWidth(context, 12)),
+                    SizedBox(width: (widget.height ?? ScreenUtilHelper.safeHeight(context, 56)) * 0.21), // 21% of height for spacing
                     _buildCountryInfo(),
                     const Spacer(),
                     _buildDropdownIcon(),
@@ -364,71 +365,95 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
   Widget _buildFlag() {
     if (!widget.showFlags) return SizedBox.shrink();
 
+    // Calculate responsive sizes based on widget height
+    final containerHeight = widget.height ?? ScreenUtilHelper.safeHeight(context, 56);
+    final flagHeight = (containerHeight * 0.43).clamp(20.0, 32.0); // 43% of height, clamped between 20-32
+    final flagWidth = flagHeight * 1.33; // Maintain aspect ratio
+    final leftMargin = (containerHeight * 0.14).clamp(8.0, 16.0); // 14% of height, clamped between 8-16
+    final borderRadius = (containerHeight * 0.07).clamp(2.0, 6.0); // 7% of height, clamped between 2-6
+
     return Container(
-      margin: EdgeInsets.only(left: ScreenUtilHelper.safeWidth(context, 16)),
-      width: ScreenUtilHelper.safeWidth(context, 32),
-      height: ScreenUtilHelper.safeHeight(context, 24),
+      margin: EdgeInsets.only(left: leftMargin),
+      width: flagWidth,
+      height: flagHeight,
       decoration: BoxDecoration(
-        borderRadius:
-            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
+        borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: ClipRRect(
-        borderRadius:
-            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
+        borderRadius: BorderRadius.circular(borderRadius),
         child: _selectedCountry?.flag != null
             ? Image.asset(
                 _selectedCountry!.flag!,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) =>
-                    _buildDefaultFlag(),
+                    _buildDefaultFlag(flagHeight, borderRadius),
               )
-            : _buildDefaultFlag(),
+            : _buildDefaultFlag(flagHeight, borderRadius),
       ),
     );
   }
 
-  Widget _buildDefaultFlag() {
+  Widget _buildDefaultFlag([double? height, double? borderRadius]) {
+    final containerHeight = widget.height ?? ScreenUtilHelper.safeHeight(context, 56);
+    final flagHeight = height ?? (containerHeight * 0.43).clamp(20.0, 32.0);
+    final iconSize = (flagHeight * 0.67).clamp(12.0, 20.0); // 67% of flag height
+    final radius = borderRadius ?? (containerHeight * 0.07).clamp(2.0, 6.0);
+    
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-        borderRadius:
-            BorderRadius.circular(ScreenUtilHelper.safeRadius(context, 4)),
+        borderRadius: BorderRadius.circular(radius),
       ),
       child: Icon(
         Icons.flag,
-        size: ScreenUtilHelper.safeRadius(context, 16),
+        size: iconSize,
         color: Theme.of(context).colorScheme.primary,
       ),
     );
   }
 
   Widget _buildCountryInfo() {
+    // Calculate responsive width based on widget width
+    final containerWidth = widget.width;
+    final baseWidth = containerWidth != null 
+        ? (containerWidth * 0.4).clamp(40.0, 80.0) // 40% of container width, clamped between 40-80
+        : ScreenUtilHelper.safeWidth(context, 60);
+    
+    // Calculate responsive font size based on widget height
+    final containerHeight = widget.height ?? ScreenUtilHelper.safeHeight(context, 56);
+    final fontSize = (containerHeight * 0.25).clamp(12.0, 16.0); // 25% of height, clamped between 12-16
+    
     return Container(
-      width: ScreenUtilHelper.safeWidth(context, 60),
+      width: baseWidth,
       child: Text(
         _selectedCountry?.dialCode ?? '+1',
         style: GoogleFonts.plusJakartaSans(
-          fontSize: ScreenUtilHelper.safeFontSize(context, 14),
+          fontSize: fontSize,
           fontWeight: FontWeight.w600,
           color: Theme.of(context).colorScheme.onSurface,
         ),
         textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }
 
   Widget _buildDropdownIcon() {
+    // Calculate responsive icon size based on widget height
+    final containerHeight = widget.height ?? ScreenUtilHelper.safeHeight(context, 56);
+    final iconSize = (containerHeight * 0.36).clamp(16.0, 24.0); // 36% of height, clamped between 16-24
+    final rightMargin = (containerHeight * 0.14).clamp(8.0, 16.0); // 14% of height, clamped between 8-16
+    
     return AnimatedBuilder(
       animation: _focusController,
       builder: (context, child) {
         return Transform.rotate(
           angle: _focusAnimation.value * math.pi,
           child: Container(
-            margin:
-                EdgeInsets.only(right: ScreenUtilHelper.safeWidth(context, 16)),
+            margin: EdgeInsets.only(right: rightMargin),
             child: Icon(
               Icons.keyboard_arrow_down_rounded,
               color: _isFocused
@@ -437,7 +462,7 @@ class _AnimatedCountryCodePickerState extends State<AnimatedCountryCodePicker>
                       .colorScheme
                       .onSurface
                       .withValues(alpha: 0.6),
-              size: ScreenUtilHelper.safeRadius(context, 20),
+              size: iconSize,
             ),
           ),
         );

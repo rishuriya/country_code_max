@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2025-01-27
+### Fixed
+- **Fixed width and height parameters not being respected** - Internal content now scales proportionally based on provided dimensions
+  - Dial code text width now adapts to 40% of container width (clamped between 40-80px)
+  - Font size scales with height (25% of height, clamped between 12-16px)
+  - Flag icon scales with height (43% of height, clamped between 20-32px) while maintaining aspect ratio
+  - Dropdown icon scales with height (36% of height, clamped between 16-24px)
+  - Spacing between elements now uses percentage-based values (21% of height) for consistent proportions
+  - All internal elements now properly respond to custom width/height parameters provided by the app
+
+### Changed
+- **Improved responsive behavior** - All internal elements (flags, icons, text, spacing) now scale proportionally
+  - Elements maintain proper proportions regardless of container size
+  - Better visual consistency when using custom dimensions
+  - Prevents content overflow or excessive whitespace
+
 ## [1.0.3] - 2025-01-27
 ### Changed
 - **Migrated from `flutter_screenutil` to `scalex` package** for better desktop and web compatibility
